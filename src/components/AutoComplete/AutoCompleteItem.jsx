@@ -1,3 +1,4 @@
+import './AutoComplete.css';
 export default function AutoCompleteItem({
 	option,
 	setValue,
