@@ -115,7 +115,7 @@ function App({ loading, setLoading }) {
 			// 		id: feature.properties.osm_id,
 			// 	};
 			// });
-			matches = matches.sort((a, b) => (a.country > b.country ? 1 : -1));
+			matches = matches.sort((a, b) => (a.city > b.city ? 1 : -1));
 
 			// matches = data.map((feature) =>  feature.properties.name);
 			//   matches = matches.filter((a, b) => matches.indexOf(a) === b);
