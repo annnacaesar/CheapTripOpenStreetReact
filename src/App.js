@@ -66,13 +66,13 @@ function App({ loading, setLoading }) {
 		setmyJson(midata);
 	};
 	const findAutocomplete = async cityName => {
-		// const url = `https://photon.komoot.io/api/?q=${cityName}&osm_tag=place:city`;
-		// const response = await fetch(url);
-		// let data = (await response.json()).features;
-
-		const url = `https://nominatim.openstreetmap.org/search?city=${cityName}&format=geojson`;
+		const url = `https://photon.komoot.io/api/?q=${cityName}&osm_tag=place:city`;
 		const response = await fetch(url);
 		let data = (await response.json()).features;
+
+		// const url = `https://nominatim.openstreetmap.org/search?city=${cityName}&format=geojson`;
+		// const response = await fetch(url);
+		// let data = (await response.json()).features;
 		return data;
 	};
 
@@ -98,15 +98,23 @@ function App({ loading, setLoading }) {
 		let matches = [];
 		if (text.length > 0) {
 			const data = await findAutocomplete(text);
-			matches = data.map(feature => {
-				const cityArr = feature.properties.display_name.split(',');
-				return {
-					city: cityArr[0],
-					country: cityArr[cityArr.length - 1],
-					geometry: feature.geometry.coordinates,
-					id: feature.properties.osm_id,
-				};
-			});
+			console.log(data);
+			matches = data.map(feature => ({
+				city: feature.properties.name,
+				country: feature.properties.country,
+				county: feature.properties.county,
+				geometry: feature.geometry.coordinates,
+				id: feature.properties.osm_id,
+			}));
+			// matches = data.map(feature => {
+			// 	const cityArr = feature.properties.display_name.split(',');
+			// 	return {
+			// 		city: cityArr[0],
+			// 		country: cityArr[cityArr.length - 1],
+			// 		geometry: feature.geometry.coordinates,
+			// 		id: feature.properties.osm_id,
+			// 	};
+			// });
 			matches = matches.sort((a, b) => (a.country > b.country ? 1 : -1));
 
 			// matches = data.map((feature) =>  feature.properties.name);

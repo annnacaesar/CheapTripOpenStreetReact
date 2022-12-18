@@ -8,7 +8,6 @@ export default function AutoCompleteItem({
 	return (
 		<li
 			className="item"
-			// key={option.id}
 			onClick={() => {
 				setValue(option.city);
 				setOptions([]);
@@ -19,7 +18,7 @@ export default function AutoCompleteItem({
 			}}
 		>
 			<p className="itemCity">{option.city}</p>
-			<p className="itemCountry">{option.country}</p>
+			<p className="itemCountry">{option.country}, {option.county}</p>
 		</li>
 	);
 }
