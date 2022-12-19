@@ -39,6 +39,10 @@ margin: 0;
 margin: 0;
 }
 
+.itemWrapCountry{
+  display: flex;
+}
+
 .itemCountry{
 margin: 3px 0 0 0;
 font-size: 0.8rem;

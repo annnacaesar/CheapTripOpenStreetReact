@@ -13,10 +13,11 @@ function App({ loading, setLoading }) {
 	const [map, setMap] = useState(null);
 	const [citiesActive, setCitiesActive] = useState(false);
 	const [airportsActive, setAirportsActive] = useState(false);
-	// const [json, setJson] = useState(null);
+	const [json, setJson] = useState(null);
 	const [cityName, setCityName] = useState('');
 	// const [autoCompleteData, setAutoCompleteData] = useState([]);
 	const [options, setOptions] = useState();
+	// const [optionsSecondStep, setOptionsSecondStep] = useState();
 	const [searchMarker, setSearchMarker] = useState(null);
 
 	const [myJson, setmyJson] = useState(null);
@@ -34,7 +35,7 @@ function App({ loading, setLoading }) {
 		fetch(url)
 			.then(response => response.json())
 			.then(data => {
-				// setJson(data.features);
+				setJson(data.features);
 			});
 	};
 
@@ -98,27 +99,9 @@ function App({ loading, setLoading }) {
 		let matches = [];
 		if (text.length > 0) {
 			const data = await findAutocomplete(text);
-			console.log(data);
-			matches = data.map(feature => ({
-				city: feature.properties.name,
-				country: feature.properties.country,
-				county: feature.properties.county,
-				geometry: feature.geometry.coordinates,
-				id: feature.properties.osm_id,
-			}));
-			// matches = data.map(feature => {
-			// 	const cityArr = feature.properties.display_name.split(',');
-			// 	return {
-			// 		city: cityArr[0],
-			// 		country: cityArr[cityArr.length - 1],
-			// 		geometry: feature.geometry.coordinates,
-			// 		id: feature.properties.osm_id,
-			// 	};
-			// });
-			matches = matches.sort((a, b) => (a.city > b.city ? 1 : -1));
+			matches = data.map(feature => feature.properties.name);
 
-			// matches = data.map((feature) =>  feature.properties.name);
-			//   matches = matches.filter((a, b) => matches.indexOf(a) === b);
+			matches = matches.filter((a, b) => matches.indexOf(a) === b);
 		}
 
 		setOptions(matches);
@@ -135,7 +118,10 @@ function App({ loading, setLoading }) {
 					setValue={setCityName}
 					options={options}
 					setOptions={setOptions}
+					findCities={findCities}
 					resultClick={resultClick}
+					json={json}
+					setJson={setJson}
 				/>
 				<button
 					className="searchBtn"
@@ -147,16 +133,6 @@ function App({ loading, setLoading }) {
 				</button>
 			</div>
 			<div className="main">
-				{/* <div className="results">
-					{json &&
-						json.map(city => (
-							<SearchResult
-								key={city.properties.display_name}
-								city={city}
-								resultClick={resultClick}
-							/>
-						))}
-				</div> */}
 				<MapContainer
 					center={{ lat: 51.505, lng: -0.09 }}
 					zoom={10}
